@@ -91,8 +91,7 @@
             .then(function (response) {
                 console.log(response);
 
-                // window.location = "/api/user";
-                // window.location = "/user";
+                window.location = "/user";
             })
             .catch(function (error) {
                 console.log(error);
