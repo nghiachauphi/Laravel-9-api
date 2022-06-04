@@ -24,9 +24,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //login gg
 Route::get('/google_login', [App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider'])->name('google_login');
 Route::get('/google_login_callback', [App\Http\Controllers\Auth\LoginController::class, 'handleProviderCallback']);
-//Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'Login'])->name("Login");
 
 //thong tin user
-Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name('user');
-Route::get('/user/{id}', [App\Http\Controllers\UserController::class, 'getImage'])->name('add_avatar');
-Route::post('/user/{id}', [App\Http\Controllers\UserController::class, 'postImage']);
+Route::get('/user', [App\Http\Controllers\UserViewController::class, 'index'])->name('user');
+Route::get('/user/{id}', [App\Http\Controllers\UserViewController::class, 'getImage'])->name('add_avatar');
+Route::post('/user/{id}', [App\Http\Controllers\UserViewController::class, 'postImage']);

@@ -13,18 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
-//Route::get('/token', function () {
-//    return csrf_token();
-//});
-
-//Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name('user');
 Route::post('/login', [App\Http\Controllers\UserController::class, 'login']);
 Route::post('/logout', [App\Http\Controllers\UserController::class, 'logout']);
-Route::post('/create/user', [App\Http\Controllers\UserController::class, 'create']);
+Route::post('/user/create', [App\Http\Controllers\UserController::class, 'create']);
+Route::post('/user/delete/', [App\Http\Controllers\UserController::class, 'delete']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -33,4 +25,5 @@ Route::middleware('auth:sanctum')->group(function () {
         return \App\Models\User::all();
     });
     Route::post('/change_password', [App\Http\Controllers\UserController::class, 'change_password']);
+    Route::post('/user/update', [App\Http\Controllers\UserController::class, 'update']);
 });

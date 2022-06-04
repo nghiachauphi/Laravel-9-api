@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Firebase\JWT\JWT;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -25,6 +24,8 @@ class UserController extends Controller
     {
         return Validator::make($data, [
             'avatar_upload' => ['required'],
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
     }
 
@@ -39,26 +40,49 @@ class UserController extends Controller
 
         $user = User::where("api_token",$userId->api_token)->first();
 
-        return response()->json(["get info user success:" => $user], 200);
+        return response()->json([$user], 200);
     }
 
     public function login(Request $request)
     {
-        $data = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
-        if (auth()->attempt($data)) {
-            Auth::guard('web')->user()->generateAndSaveApiAuthToken();
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()
+            ], 400);
+        }
+        else {
 
             $user = User::where('email', $request['email'] )->first();
-            auth()->login($user, true);
 
-            return response()->json(['login success' => $user], 200);
+            if (!$user) {
+                return response()->json([
+                    'message' => 'Thông tin tài khoản không hợp lệ'
+                ], 400);
+            }
+            if (!Hash::check($request['password'], $user->password)) {
+                return response()->json([
+                    'message' => 'Mật khẩu không đúng'
+                ], 400);
+            }
 
-        } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+            $data = [
+                'email' => $request->email,
+                'password' => $request->password
+            ];
+
+            if (auth()->attempt($data)) {
+                Auth::user()->generateAndSaveApiAuthToken();
+
+                $user = User::where('email', $request['email'] )->first();
+//                Auth()->login($user, true);
+
+                return response()->json(['login success' => $user], 200);
+            }
         }
     }
 
@@ -179,5 +203,42 @@ class UserController extends Controller
             ]);
             return response()->json(['message' => "Đăng ký thành công.", 'data' => $user], 200);
         }
+    }
+
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|regex:/(0)[0-9]{9}/|min:10',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()
+            ], 400);
+        }
+        else {
+            $user_token = Auth::user();
+            $user = User::where('api_token', $user_token->api_token)->first();
+
+            $user->update($request->all());
+
+            return response()->json(["message" => "Cập nhật user thành công", "payload_data" => $user]);
+        }
+    }
+
+    public function delete(Request $request)
+    {
+        $user = User::where('email',$request->email)->first();
+
+        if ($user == null)
+        {
+            return response()->json(["message" => "Không tìm thấy user"], 400);
+        }
+
+        $user->delete();
+
+        return response()->json(["message" => "Xóa user thành công"], 200);
     }
 }

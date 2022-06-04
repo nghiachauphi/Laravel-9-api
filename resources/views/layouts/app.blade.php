@@ -28,8 +28,7 @@
         crossorigin="anonymous">
     </script>
     <script src="{{ asset('js/semantic.min.js') }}"></script>
-
-
+    <script src="{{ asset('js/custom.js') }}"></script>
 </head>
 <body>
 <!--    alpinejs    -->

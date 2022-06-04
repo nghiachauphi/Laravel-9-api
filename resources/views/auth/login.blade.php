@@ -54,9 +54,8 @@
 
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="w-50 btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
+                                <input type="button" class="w-50 btn btn-primary" onclick="Login();" value="Login">
+{{--                                    {{ __('Login') }}--}}
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
@@ -82,3 +81,21 @@
 </div>
 
 @endsection
+<script>
+    function Login()
+    {
+        axios.post('/api/login', {
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value,
+        })
+            .then(function (response) {
+                console.log(response);
+
+                // window.location = "/api/user";
+                // window.location = "/user";
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+</script>

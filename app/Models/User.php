@@ -23,8 +23,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-//    protected $collection = 'users';
-//    protected $connection = 'mongodb';
+    protected $collection = 'users';
     protected $fillable = [
         'name',
         'email',
