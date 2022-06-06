@@ -35,14 +35,21 @@ return [
 
     'connections' => [
 
+//        'mongodb' => [
+//            'driver' => 'mongodb',
+//            'host' => env('DB_HOST', '127.0.0.1'),
+//            'port' => env('DB_PORT', 27017),
+//            'database' => env('DB_DATABASE', 'admin'),
+//            'username' => env('DB_USERNAME', ''),
+//            'password' => env('DB_PASSWORD', ''),
+//        ],
+
         'mongodb' => [
             'driver' => 'mongodb',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', 27017),
-            'database' => env('DB_DATABASE', 'admin'),
-            'username' => env('DB_USERNAME', ''),
-            'password' => env('DB_PASSWORD', '')
+            'database' => env('DB_DATABASE', 'test'),
+            'dsn' => env('DSN', ''),
         ],
+
 
         'sqlite' => [
             'driver' => 'sqlite',

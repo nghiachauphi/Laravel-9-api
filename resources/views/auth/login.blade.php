@@ -9,7 +9,7 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('postlogin') }}">
                         @csrf
 
                         <div class="row mb-3">
@@ -54,8 +54,9 @@
 
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">
-                                <input type="button" class="w-50 btn btn-primary" onclick="Login();" value="Login">
-{{--                                    {{ __('Login') }}--}}
+                                <button type="submit" class="w-50 btn btn-primary">
+                                    {{ __('Login') }}
+                                </button>
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
@@ -84,7 +85,7 @@
 <script>
     function Login()
     {
-        axios.post('/api/login', {
+        axios.post('http://103.162.31.19:1818/api/emr/login', {
             email: document.getElementById('email').value,
             password: document.getElementById('password').value,
         })

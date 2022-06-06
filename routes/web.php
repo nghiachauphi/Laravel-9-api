@@ -27,5 +27,6 @@ Route::get('/google_login_callback', [App\Http\Controllers\Auth\LoginController:
 
 //thong tin user
 Route::get('/user', [App\Http\Controllers\UserViewController::class, 'index'])->name('user');
+Route::post('/login', [App\Http\Controllers\UserViewController::class, 'postlogin'])->name('postlogin');
 Route::get('/user/{id}', [App\Http\Controllers\UserViewController::class, 'getImage'])->name('add_avatar');
 Route::post('/user/{id}', [App\Http\Controllers\UserViewController::class, 'postImage']);
