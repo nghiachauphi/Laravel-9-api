@@ -66,4 +66,9 @@ class User extends Authenticatable
 
         return $this;
     }
+
+    public function saveToken($data)
+    {
+        return $data;
+    }
 }
