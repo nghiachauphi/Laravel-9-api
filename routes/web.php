@@ -25,8 +25,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/google_login', [App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider'])->name('google_login');
 Route::get('/google_login_callback', [App\Http\Controllers\Auth\LoginController::class, 'handleProviderCallback']);
 
-//thong tin user
-Route::get('/user', [App\Http\Controllers\UserViewController::class, 'index'])->name('user');
-Route::post('/login', [App\Http\Controllers\UserViewController::class, 'postlogin'])->name('postlogin');
+//get local
+Route::post('/login', [App\Http\Controllers\UserViewController::class, 'login_local'])->name('login_local');
+Route::get('/user', [App\Http\Controllers\UserViewController::class, 'index_local'])->name('user');
 Route::get('/user/{id}', [App\Http\Controllers\UserViewController::class, 'getImage'])->name('add_avatar');
 Route::post('/user/{id}', [App\Http\Controllers\UserViewController::class, 'postImage']);
+
+//get server user
+Route::get('/user', [App\Http\Controllers\UserViewController::class, 'index'])->name('user');
+Route::post('/login', [App\Http\Controllers\UserViewController::class, 'postlogin'])->name('postlogin');
+

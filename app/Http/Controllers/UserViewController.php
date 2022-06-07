@@ -27,6 +27,18 @@ class UserViewController extends Controller
             'Authorization' => 'Bearer '.session('token')
         ])->get('http://103.162.31.19:1818/api/emr/user');
 
+        $data = json_decode($response->body());
+
+        return view('user.index')->with('data',$data);
+    }
+
+    public function login_local()
+    {
+        return view('/user');
+    }
+
+    public function index_local()
+    {
         return view('user.index');
     }
 

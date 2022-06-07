@@ -25,10 +25,9 @@
 @endsection
 <script>
     function GetDataUser(){
-        axios.get('http://103.162.31.19:1818/api/emr/user')
+        axios.get('/api/user')
             .then(function (response) {
                 // handle success
-                axiosInstance.defaults.headers["Authorization"] = "Bearer " + "629b81504e7400009d000bc0|TodidCkL4vK2L1qD8OTT4WOOmo7FUtHGiMwYkojK";
                 var payload = CheckArrayOrObjectBindData(response.data);
                 console.log(payload);
                 BindTextValue("bind_name",payload ,"name");
@@ -45,7 +44,14 @@
             });
     }
 
-    // window.onload = function(){
-    //     GetDataUser();
-    // };
+    function BindData()
+    {
+        {{--BindTextValue("bind_name", "{{$data->name}}");--}}
+        {{--BindTextValue("bind_email", "{{$data->email}}");--}}
+    }
+
+    window.onload = function(){
+        GetDataUser();
+        BindData()
+    };
 </script>
