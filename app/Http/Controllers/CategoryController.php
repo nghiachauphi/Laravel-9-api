@@ -39,11 +39,11 @@ class CategoryController extends Controller
     public function create(Request $request)
     {
         $valid = Validator::make($request->all(),[
-            "name" => "required|string|min:8|unique:categories"
+            "name" => "required|string|min:8|unique:categories",
         ]);
 
         if ($valid->fails()){
-            return response()->json(["message", $valid->errors()], 400);
+            return response()->json(["message" => $valid->errors()], 400);
         }
         else {
             $response = Category::create([
@@ -80,7 +80,7 @@ class CategoryController extends Controller
         ]);
 
         if ($valid->fails()){
-            return response()->json(["message", $valid->errors()], 400);
+            return response()->json(["message" => $valid->errors()], 400);
         }
         else {
             $response = Category::where("_id", $request->_id)->update([

@@ -220,7 +220,9 @@
             })
             .catch(function (error) {
                 console.log(error.response.data);
-                show_result("label_update", error.response.data[1].name, "col-12 h-100 alert alert-danger text-center");
+                let stringdata = error.response.data.message;
+                let message = stringdata[Object.keys(stringdata)[0]][0];
+                show_result("label_update", message, "col-12 h-100 alert alert-danger text-center");
             });
     }
 
@@ -238,7 +240,9 @@
             })
             .catch(function (error) {
                 console.log(error);
-                show_result("label_update", error.response.data[1].name, "col-12 h-100 alert alert-danger text-center");
+                let stringdata = error.response.data.message;
+                let message = stringdata[Object.keys(stringdata)[0]][0];
+                show_result("label_update", message, "col-12 h-100 alert alert-danger text-center");
             });
     }
 
