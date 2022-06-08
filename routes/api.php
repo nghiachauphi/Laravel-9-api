@@ -26,4 +26,10 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::post('/change_password', [App\Http\Controllers\UserController::class, 'change_password']);
     Route::post('/user/update', [App\Http\Controllers\UserController::class, 'update']);
+
+    Route::get('/category', [App\Http\Controllers\CategoryController::class, 'index']);
+    Route::post('/category/create', [App\Http\Controllers\CategoryController::class, 'create']);
+    Route::post('/category/edit', [App\Http\Controllers\CategoryController::class, 'edit']);
+    Route::post('/category/delete', [App\Http\Controllers\CategoryController::class, 'delete']);
 });
+

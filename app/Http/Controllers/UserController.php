@@ -79,7 +79,6 @@ class UserController extends Controller
                 Auth::user()->generateAndSaveApiAuthToken();
 
                 $user = User::where('email', $request['email'] )->first();
-                Auth()->login($user, true);
 
                 return response()->json(['login success' => $user], 200);
             }

@@ -57,7 +57,7 @@
 {{--                                <button type="submit" class="w-50 btn btn-primary" >--}}
 {{--                                    {{ __('Login') }}--}}
 {{--                                </button>--}}
-                                <input type="submit" class="btn btn-primary w-50" onclick="Login()" value="LOGIN">
+                                <input class="btn btn-primary w-50" onclick="Login()" value="LOGIN">
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
