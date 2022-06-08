@@ -39,7 +39,7 @@ class CategoryController extends Controller
     public function create(Request $request)
     {
         $valid = Validator::make($request->all(),[
-            "name" => "required|string|min:8|unique:categories",
+            "name" => "required|string|min:3|unique:categories",
         ]);
 
         if ($valid->fails()){
@@ -76,7 +76,7 @@ class CategoryController extends Controller
     public function update(Request $request)
     {
         $valid = Validator::make($request->all(),[
-            "name" => "required|string|min:8|unique:categories"
+            "name" => "required|string|min:3|unique:categories"
         ]);
 
         if ($valid->fails()){

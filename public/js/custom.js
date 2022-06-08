@@ -22,6 +22,25 @@ function CheckArrayOrObjectBindData(payload_data)
     return data;
 }
 
+function hide_result(id_bind)
+{
+    var label_msg = document.getElementById(id_bind);
+    if (label_msg == null)
+    {
+        return;
+    }
+    label_msg.style.display = "none";
+    label_msg.text = "";
+}
+
+function ClearValidateForm(id_form)
+{
+    var clear_form = document.getElementById(id_form);
+    if (clear_form != null && clear_form != undefined) {
+        clear_form.classList.remove("was-validated");
+    }
+}
+
 function BindTextValue(id, data, key = null)
 {
     if (key)

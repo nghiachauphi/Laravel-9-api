@@ -104,6 +104,7 @@
         var itemEdit = document.createElement("td");
             itemEdit.setAttribute("class", "text-center");
             itemEdit.onclick = () => {
+                ClearForm();
                 BindTextValue("name", data, "name");
                 BindTextValue("discription", data, "discription");
                 HiddenElement("btn_submit_create", true);
@@ -167,11 +168,13 @@
 
     function RegisterEvents()
     {
-        $('#btn_close').click( () => {btn_submit_update
+        $('#btn_close').click( () => {
+            ClearForm();
             HiddenElement("form_category", true);
         });
 
         $('#btn_add').click( () => {
+            ClearForm();
             HiddenElement("form_category", false);
             HiddenElement("btn_submit_update", true);
             HiddenElement("btn_submit_create", false);
@@ -184,6 +187,15 @@
         HisRegistHandlerConfirmNo(const_delete_category, function() {
             HisClearAndHideConfirm(const_delete_category);
         });
+    }
+
+    function ClearForm()
+    {
+        ClearValidateForm("form_category");
+        hide_result("label_update");
+
+        BindTextValue("name", "");
+        BindTextValue("discription", "");
     }
 
     function APIGetCategory()
