@@ -75,8 +75,6 @@ class CategoryController extends Controller
 
     public function update(Request $request)
     {
-        dd($request->all);
-
         $valid = Validator::make($request->all(),[
             "name" => "required|string|min:8|unique:categories"
         ]);
@@ -85,16 +83,15 @@ class CategoryController extends Controller
             return response()->json(["message", $valid->errors()], 400);
         }
         else {
-
-            $response = Category::where("_id", $request->_id)::update([
+            $response = Category::where("_id", $request->_id)->update([
                 "name" => $request->name,
                 "author_update" => auth::user()->name,
                 "discription" => $request->discription
             ]);
 
-            return response()->json(["message" => "Cập nhật danh mục ". '<strong>'.$response->name .'</strong>' ." thành công","data" => $response],200);
+            return response()->json(["message" => "Cập nhật danh mục ". '<strong>'.$request->name .'</strong>' ." thành công","data" => $request],200);
         }
 
-        return response()->json(["message" => "Cập nhật danh mục thất bại","data" => $response],400);
+        return response()->json(["message" => "Cập nhật danh mục thất bại","data" => $request],400);
     }
 }

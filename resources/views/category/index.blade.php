@@ -54,7 +54,7 @@
                 <th class="text-center">STT</th>
                 <th>ID danh mục</th>
                 <th>Tên danh mục</th>
-                <th class="">Người tạo</th>
+                <th class="">Người tạo/Người sửa</th>
                 <th class="">Mô tả</th>
                 <th class="text-center">Sửa</th>
                 <th class="text-center">Xóa</th>
@@ -69,7 +69,8 @@
     var const_delete_category = "delete_category";
     var code_delete = null;
 
-    function CreateRowItem(data, stt) {
+    function CreateRowItem(data, stt)
+    {
         var tbody = document.getElementById("tbody");
 
         var itemTr = document.createElement("tr");
@@ -89,7 +90,9 @@
         }
 
         var itemAuthor = document.createElement("td");
-        if (data.hasOwnProperty("author")) {
+        if(data.hasOwnProperty("author_update")) {
+            itemAuthor.innerText = data.author_update;
+        }else if (data.hasOwnProperty("author")) {
             itemAuthor.innerText = data.author;
         }
 
@@ -212,7 +215,7 @@
         })
             .then(function (response) {
                 console.log(response);
-
+                APIGetCategory();
                 show_result("label_update", response.data.message, "col-12 h-100 alert alert-success text-center");
             })
             .catch(function (error) {
@@ -230,7 +233,7 @@
         })
             .then(function (response) {
                 console.log(response);
-
+                APIGetCategory();
                 show_result("label_update", response.data.message, "col-12 h-100 alert alert-success text-center");
             })
             .catch(function (error) {
