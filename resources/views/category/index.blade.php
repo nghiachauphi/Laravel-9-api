@@ -2,47 +2,52 @@
 
 @section('content')
     <div id="main">
-        <div class="card-header text-center"><h2>DANH MỤC</h2></div>
-
-        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modal_show">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">THÔNG TIN LỖI</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center" id="">
-                        <table class="table">
-                            <tr>
-                                <td>Người tạo</td>
-                                <td id="label_acc_name"></td>
-                            </tr>
-                            <tr>
-                                <td>Thời gian tạo</td>
-                                <td id="label_date_time"></td>
-                            </tr>
-                            <tr>
-                                <td>Nội dung</td>
-                                <th id="label_content"></th>
-                            </tr>
-                            <tr>
-                                <td>Mức độ</td>
-                                <td id="label_rate"></td>
-                            </tr>
-                            <tr>
-                                <td>Tình trạng xử lý</td>
-                                <td id="label_state"></td>
-                            </tr>
-                            <tr>
-                                <td>Người xử lý</td>
-                                <td id="label_assigned"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <div class="card-header text-center">
+            <h2>DANH MỤC</h2>
         </div>
 
+        <div class="w-100">
+            <div class="row">
+                <div class="col d-flex justify-content-end align-items-end">
+                    <button class="btn btn-primary m-3" id="btn_add">Thêm</button>
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center align-items-center">
+                <form id="form_category" method="POST" class="w-75 border rounded" hidden>
+                    @csrf
+                    <div class="row mt-3">
+                        <div class="col d-flex align-items-end justify-content-end">
+                            <i id="btn_close" class="fa-solid fa-circle-xmark fa-2x"></i>
+                        </div>
+                        <div><hr></div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm">
+                            <label>Tên danh mục</label>
+                            <input class="form-control" id="name" name="name">
+                        </div>
+
+                        <div class="col-sm">
+                            <label>Mô tả</label>
+                            <input class="form-control" id="discription" name="discription">
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label for="btn_submit">&emsp;</label>
+                            <input id="btn_submit_create" onclick="APICreateCategory()" class="form-control btn btn-primary" value="Lưu">
+                            <input id="btn_submit_update" onclick="APIUpdateCategory()" class="form-control btn btn-primary" value="Cập nhật">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 p-0 m-0">
+                        <div role="alert" id="label_update"></div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
 
         <table class="table align-middle table-hover">
             <tr>
@@ -63,14 +68,6 @@
 <script>
     var const_delete_category = "delete_category";
     var code_delete = null;
-
-    function AlertDelete_Category(data)
-    {
-        if (data.hasOwnProperty("name"))
-        {
-            HdmShowConfirm(const_delete_category, "Xóa danh mục", "Xác nhận xóa danh mục: " + '<br/>' +'<strong>' + data.name +'</strong>');
-        }
-    }
 
     function CreateRowItem(data, stt) {
         var tbody = document.getElementById("tbody");
@@ -103,6 +100,15 @@
 
         var itemEdit = document.createElement("td");
             itemEdit.setAttribute("class", "text-center");
+            itemEdit.onclick = () => {
+                BindTextValue("name", data, "name");
+                BindTextValue("discription", data, "discription");
+                HiddenElement("btn_submit_create", true);
+                HiddenElement("btn_submit_update", false);
+                HiddenElement("form_category", false);
+                code_delete = data._id;
+            }
+
         var iEdit = document.createElement("i");
             iEdit.setAttribute('class',"fa-solid fa-pen-to-square");
         itemEdit.append(iEdit);
@@ -111,7 +117,6 @@
             itemDelete.setAttribute("class", "text-center");
             itemDelete.onclick = () => {
                 AlertDelete_Category(data);
-                console.log("aaa", data._id);
                 code_delete = data._id;
             }
 
@@ -131,7 +136,54 @@
         return;
     }
 
-    function GetCategory()
+    function AlertDelete_Category(data)
+    {
+        if (data.hasOwnProperty("name"))
+        {
+            HisShowConfirm(const_delete_category, "Xóa danh mục", "Xác nhận xóa danh mục: " + '<br/>' +'<strong>' + data.name +'</strong>');
+        }
+    }
+
+    function ConfirmYesDelete_Handler(code_delete)
+    {
+        axios.post('/api/category/delete',{
+            _id: code_delete
+        })
+            .then(function (response) {
+                var payload = response.data.message;
+
+                APIGetCategory();
+                HisShowConfirmSucessResult(const_delete_category, payload);
+
+            })
+            .catch(function (error) {
+                console.log(error);
+                HisShowConfirmErrorResult(const_delete_category, payload);
+            });
+    }
+
+    function RegisterEvents()
+    {
+        $('#btn_close').click( () => {btn_submit_update
+            HiddenElement("form_category", true);
+        });
+
+        $('#btn_add').click( () => {
+            HiddenElement("form_category", false);
+            HiddenElement("btn_submit_update", true);
+            HiddenElement("btn_submit_create", false);
+        });
+
+        HisRegistHandlerConfirmYes(const_delete_category, function() {
+            ConfirmYesDelete_Handler(code_delete);
+        });
+
+        HisRegistHandlerConfirmNo(const_delete_category, function() {
+            HisClearAndHideConfirm(const_delete_category);
+        });
+    }
+
+    function APIGetCategory()
     {
         document.getElementById("tbody").innerText = "";
 
@@ -152,34 +204,39 @@
             });
     }
 
-    function ConfirmYesDelete_Handler(code_delete)
+    function APICreateCategory()
     {
-        axios.post('/api/category/delete',{
-            _id: code_delete
+        axios.post('/api/category/create', {
+            name: document.getElementById('name').value,
+            discription: document.getElementById('discription').value,
         })
             .then(function (response) {
-                var payload = response.data.message;
+                console.log(response);
 
-                GetCategory();
-                HdmShowConfirmSucessResult(const_delete_category, payload);
-
+                show_result("label_update", response.data.message, "col-12 h-100 alert alert-success text-center");
             })
             .catch(function (error) {
                 console.log(error);
-                HdmShowConfirmErrorResult(const_delete_category, payload);
+                show_result("label_update", error, "col-12 h-100 alert alert-danger text-center");
             });
     }
 
-    function RegisterEvents()
+    function APIUpdateCategory()
     {
-        HdmRegistHandlerConfirmYes(const_delete_category, function() {
-            ConfirmYesDelete_Handler(code_delete);
-        });
+        axios.post('/api/category/update', {
+            _id: code_delete,
+            name: document.getElementById('name').value,
+            discription: document.getElementById('discription').value,
+        })
+            .then(function (response) {
+                console.log(response);
 
-        HdmRegistHandlerConfirmNo(const_delete_category, function() {
-            HdmClearAndHideConfirm(const_delete_category);
-        });
-
+                show_result("label_update", response.data.message, "col-12 h-100 alert alert-success text-center");
+            })
+            .catch(function (error) {
+                console.log(error);
+                show_result("label_update", error, "col-12 h-100 alert alert-danger text-center");
+            });
     }
 
     window.onload = function(){
@@ -187,7 +244,7 @@
         document.getElementById("main").append(GenerateConfirmModal(const_delete_category));
 
         RegisterEvents();
-        GetCategory();
+        APIGetCategory();
     };
 </script>
 

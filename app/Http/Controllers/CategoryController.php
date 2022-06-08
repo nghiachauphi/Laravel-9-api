@@ -52,8 +52,11 @@ class CategoryController extends Controller
                 "discription" => $request->discription
             ]);
 
-            return response()->json(["data" => $response],200);
+            //strtoupper() hàm này dùng để in hoa kí tự
+            return response()->json(["message" => "Thêm danh mục ". '<strong>'.$response->name .'</strong>' ." thành công","data" => $response],200);
         }
+
+        return response()->json(["message" => "Thêm danh mục thất bại","data" => $response],400);
     }
 
     public function delete(Request $request)
@@ -68,5 +71,30 @@ class CategoryController extends Controller
         $category->delete();
 
         return response()->json(["message" => "Xóa danh mục ".$category->name ." thành công"], 200);
+    }
+
+    public function update(Request $request)
+    {
+        dd($request->all);
+
+        $valid = Validator::make($request->all(),[
+            "name" => "required|string|min:8|unique:categories"
+        ]);
+
+        if ($valid->fails()){
+            return response()->json(["message", $valid->errors()], 400);
+        }
+        else {
+
+            $response = Category::where("_id", $request->_id)::update([
+                "name" => $request->name,
+                "author_update" => auth::user()->name,
+                "discription" => $request->discription
+            ]);
+
+            return response()->json(["message" => "Cập nhật danh mục ". '<strong>'.$response->name .'</strong>' ." thành công","data" => $response],200);
+        }
+
+        return response()->json(["message" => "Cập nhật danh mục thất bại","data" => $response],400);
     }
 }

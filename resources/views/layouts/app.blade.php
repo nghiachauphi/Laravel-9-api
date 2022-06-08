@@ -100,12 +100,12 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 scroll-none-width">
             @yield('content')
         </main>
     </div>
 </body>
-<footer id="footer">
+<footer id="footer" class="d-flex justify-content-center align-items-center text-center">
         Copyright All Rights Reserved @2022 By Leopard Solutions
 </footer>
 </html>

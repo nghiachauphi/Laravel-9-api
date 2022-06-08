@@ -211,7 +211,7 @@ function GenerateConfirmModal(extra_id, yes_call_back = null, no_call_back = nul
  * @extra_id the id of the modal
  * @handler handler registered
  */
-function HdmRegistHandlerConfirmYes(extra_id, handler)
+function HisRegistHandlerConfirmYes(extra_id, handler)
 {
     RegisterClickHandler(document.getElementById("his_modal_confirm_btn_yes_" + extra_id), handler);
 }
@@ -221,7 +221,7 @@ function HdmRegistHandlerConfirmYes(extra_id, handler)
  * @extra_id the id of the modal
  * @handler handler registered
  */
-function HdmRegistHandlerConfirmNo(extra_id, handler)
+function HisRegistHandlerConfirmNo(extra_id, handler)
 {
     RegisterClickHandler(document.getElementById("his_modal_confirm_btn_no_" + extra_id), handler);
 }
@@ -232,7 +232,7 @@ function HdmRegistHandlerConfirmNo(extra_id, handler)
  * @title the title of the modal
  * @msg the message that we need to show
  */
-function HdmShowConfirm(extra_id, title, msg)
+function HisShowConfirm(extra_id, title, msg)
 {
     document.getElementById("his_modal_confirm_title_" + extra_id).innerHTML = title;
     show_result("his_modal_confirm_text_" + extra_id, msg, "col-12 h-100 alert alert-info text-center");
@@ -249,7 +249,7 @@ function HdmShowConfirm(extra_id, title, msg)
  * @title the title of the modal
  * @msg the message that we need to show
  */
-function HdmShowConfirmWarning(extra_id, title, msg)
+function HisShowConfirmWarning(extra_id, title, msg)
 {
     document.getElementById("his_modal_confirm_title_" + extra_id).innerHTML = title;
     show_result("his_modal_confirm_text_" + extra_id, msg, "col-12 h-100 alert alert-warning text-center");
@@ -264,7 +264,7 @@ function HdmShowConfirmWarning(extra_id, title, msg)
  * @title the title of the modal
  * @msg the message that we need to show
  */
-function HdmShowConfirmSucessResult(extra_id, msg)
+function HisShowConfirmSucessResult(extra_id, msg)
 {
     show_result("his_modal_confirm_text_" + extra_id, msg, "col-12 h-100 alert alert-success text-center");
     // (new bootstrap.Modal(document.getElementById("his_modal_confirm_" + extra_id), {})).show();
@@ -282,7 +282,7 @@ function HdmShowConfirmSucessResult(extra_id, msg)
  * @title the title of the modal
  * @msg the message that we need to show
  */
-function HdmShowConfirmErrorResult(extra_id, msg)
+function HisShowConfirmErrorResult(extra_id, msg)
 {
     show_result("his_modal_confirm_text_" + extra_id, msg, "col-12 h-100 alert alert-danger text-center");
     // (new bootstrap.Modal(document.getElementById("his_modal_confirm_" + extra_id), {})).show();
@@ -298,7 +298,7 @@ function HdmShowConfirmErrorResult(extra_id, msg)
  * Clear content and hide the modal have extra_id
  * @extra_id the id of the modal
  */
-function HdmClearAndHideConfirm(extra_id)
+function HisClearAndHideConfirm(extra_id)
 {
     // (new bootstrap.Modal(document.getElementById(), {})).hide();
     $("#his_modal_confirm_" + extra_id).modal('hide');
@@ -320,7 +320,7 @@ function show_result(id_bind, msg_bind, class_show = "")
  * @extra_id the id of the modal
  * @handler handler registered
  */
-function HdmRegistHandlerConfirmNo(extra_id, handler)
+function HisRegistHandlerConfirmNo(extra_id, handler)
 {
     RegisterClickHandler(document.getElementById("his_modal_confirm_btn_no_" + extra_id), handler);
 }
@@ -344,7 +344,7 @@ function RegisterClickHandler(element, handler)
  * @title the title of the modal
  * @msg the message that we need to show
  */
-function HdmShowAlertSuccess(title, msg)
+function HisShowAlertSuccess(title, msg)
 {
     document.getElementById("his_modal_alert_title").innerHTML = title;
     show_result("his_modal_alert_text", msg, "col-12 h-100 alert alert-success text-center");
@@ -358,7 +358,7 @@ function HdmShowAlertSuccess(title, msg)
  * @title the title of the modal
  * @msg the message that we need to show
  */
-function HdmShowAlertWarning(title, msg)
+function HisShowAlertWarning(title, msg)
 {
     document.getElementById("his_modal_alert_title").innerHTML = title;
     show_result("his_modal_alert_text", msg, "col-12 h-100 alert alert-warning text-center");
@@ -371,7 +371,7 @@ function HdmShowAlertWarning(title, msg)
  * @title the title of the modal
  * @msg the message that we need to show
  */
-function HdmShowAlertError(title, msg)
+function HisShowAlertError(title, msg)
 {
     document.getElementById("his_modal_alert_title").innerHTML = title;
     show_result("his_modal_alert_text", msg, "col-12 h-100 alert alert-danger text-center");
@@ -383,7 +383,7 @@ function HdmShowAlertError(title, msg)
 /**
  * clear content and hide alert modal
  */
-function HdmClearAlert()
+function HisClearAlert()
 {
     document.getElementById("his_modal_alert_title").innerHTML = "";
     document.getElementById("his_modal_alert_text").innerHTML = "";
@@ -391,3 +391,20 @@ function HdmClearAlert()
     $("#his_modal_alert").modal('hide');
 }
 
+function HiddenElement(id, _true = true)
+{
+    if (id)
+    {
+        if (document.getElementById(id))
+        {
+            if (_true)
+            {
+                document.getElementById(id).setAttribute("hidden", true);
+            }
+            else
+            {
+                document.getElementById(id).removeAttribute("hidden", false);
+            }
+        }
+    }
+}
