@@ -219,8 +219,8 @@
                 show_result("label_update", response.data.message, "col-12 h-100 alert alert-success text-center");
             })
             .catch(function (error) {
-                console.log(error);
-                show_result("label_update", error, "col-12 h-100 alert alert-danger text-center");
+                console.log(error.response.data);
+                show_result("label_update", error.response.data[1].name, "col-12 h-100 alert alert-danger text-center");
             });
     }
 
@@ -238,7 +238,7 @@
             })
             .catch(function (error) {
                 console.log(error);
-                show_result("label_update", error, "col-12 h-100 alert alert-danger text-center");
+                show_result("label_update", error.response.data[1].name, "col-12 h-100 alert alert-danger text-center");
             });
     }
 
