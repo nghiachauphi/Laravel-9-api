@@ -30,10 +30,10 @@
                 // handle success
                 var payload = CheckArrayOrObjectBindData(response.data);
                 console.log(payload);
-                BindTextValue("bind_name",payload ,"name");
-                BindTextValue("bind_token",payload ,"api_token");
-                BindTextValue("bind_phone",payload ,"phone");
-                BindTextValue("bind_email",payload ,"email");
+                BindInnerTextValue("bind_name",payload ,"name");
+                BindInnerTextValue("bind_token",payload ,"api_token");
+                BindInnerTextValue("bind_phone",payload ,"phone");
+                BindInnerTextValue("bind_email",payload ,"email");
             })
             .catch(function (error) {
                 // handle error

@@ -30,7 +30,7 @@ function BindTextValue(id, data, key = null)
         {
             if (document.getElementById(id))
             {
-                $('#' + id).val(data[key]).trigger('change');
+                document.getElementById(id).value = data[key];
             }
         }
     }
@@ -38,7 +38,7 @@ function BindTextValue(id, data, key = null)
     {
         if (document.getElementById(id))
         {
-            $('#' + id).val(data).trigger('change');
+            document.getElementById(id).value = data;
         }
     }
 }
