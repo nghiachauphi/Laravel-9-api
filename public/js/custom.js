@@ -230,7 +230,7 @@ function HisRegistHandlerConfirmNo(extra_id, handler)
 function HisShowConfirm(extra_id, title, msg)
 {
     document.getElementById("his_modal_confirm_title_" + extra_id).innerHTML = title;
-    show_result("his_modal_confirm_text_" + extra_id, msg, "col-12 h-100 alert alert-info text-center");
+    show_result("his_modal_confirm_text_" + extra_id, msg, "col-12 h-100 alert alert-danger text-center");
     document.getElementById("his_modal_confirm_btn_yes_" + extra_id).style.display = "";
     document.getElementById("his_modal_confirm_btn_no_" + extra_id).style.display = "";
     $("#his_modal_confirm_" + extra_id).modal('show');
