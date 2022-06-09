@@ -422,3 +422,22 @@ function HiddenElement(id, _true = true)
         }
     }
 }
+
+function ReadOnlyElement(id, _true = true)
+{
+    if (id)
+    {
+        if (document.getElementById(id))
+        {
+            if (_true)
+            {
+                document.getElementById(id).setAttribute("readonly", true);
+            }
+            else
+            {
+                document.getElementById(id).removeAttribute("readonly");
+            }
+        }
+    }
+}
+

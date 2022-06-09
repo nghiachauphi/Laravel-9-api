@@ -68,15 +68,17 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     @php
-                                        $value = auth()->user();
+                                      $value = Auth::user();
                                     @endphp
-                                    @if($value->avatar_upload == null)
+
+                                    @if( $value->avatar_upload == null || $value->avatar_upload  == "")
                                         <img class="rounded-circle" src="{{Auth::user()->avatar}}" style="max-width: 40px; max-height: 40px"/>
                                     @else
-                                        <img class="rounded-circle" src="{{asset('/upload/'. $value->avatar_upload)}}"  style="max-width: 40px; max-height: 40px"/>
+                                        <img class="rounded-circle" src="{{Auth::user()->avatar_upload}}"  style="max-width: 40px; max-height: 40px"/>
                                     @endif
 
                                     {{ Auth::user()->name }}
+
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -109,3 +111,24 @@
         Copyright All Rights Reserved @2022 By Leopard Solutions
 </footer>
 </html>
+
+<script>
+    function GetDataImage(){
+        axios.get('/api/user/image')
+            .then(function (response) {
+                // handle success
+                var payload = CheckArrayOrObjectBindData(response.data);
+                console.log(payload);
+
+                var src = document.getElementById("bind_avatar");
+                src.setAttribute("src", payload.avatar_upload);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+    }
+</script>
