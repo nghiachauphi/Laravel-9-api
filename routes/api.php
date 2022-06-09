@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [App\Http\Controllers\UserController::class, 'login']);
 Route::post('/logout', [App\Http\Controllers\UserController::class, 'logout']);
 Route::post('/user/create', [App\Http\Controllers\UserController::class, 'create']);
-Route::post('/user/delete/', [App\Http\Controllers\UserController::class, 'delete']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -26,6 +25,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::post('/change_password', [App\Http\Controllers\UserController::class, 'change_password']);
     Route::post('/user/update', [App\Http\Controllers\UserController::class, 'update']);
+    Route::post('/user/delete/', [App\Http\Controllers\UserController::class, 'delete']);
+    Route::get('/user/image', [App\Http\Controllers\UserController::class, 'getImage']);
+    Route::post('/user/image', [App\Http\Controllers\UserController::class, 'postImage']);
 
     Route::get('/category', [App\Http\Controllers\CategoryController::class, 'index']);
     Route::post('/category/create', [App\Http\Controllers\CategoryController::class, 'create']);

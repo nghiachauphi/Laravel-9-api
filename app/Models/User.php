@@ -13,6 +13,7 @@ use Jenssegers\Mongodb\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\PersonalAccessTokenFactory;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Jenssegers\Mongodb\Eloquent\Model as Moloquent;
 
 class User extends Authenticatable
 {
@@ -23,7 +24,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $connection  = 'mongodb';
     protected $collection = 'users';
+
     protected $fillable = [
         'name',
         'email',

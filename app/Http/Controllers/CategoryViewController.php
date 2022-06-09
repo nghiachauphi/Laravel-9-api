@@ -11,6 +11,10 @@ use Session;
 
 class CategoryViewController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth', ['except' => ['login', 'register']]);
+    }
+    
     public function index()
     {
         return view('category.index');

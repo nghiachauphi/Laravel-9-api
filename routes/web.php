@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
@@ -31,9 +29,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/google_login', [App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider'])->name('google_login');
 Route::get('/google_login_callback', [App\Http\Controllers\Auth\LoginController::class, 'handleProviderCallback']);
 
-//get local
-Route::post('/login', [App\Http\Controllers\UserViewController::class, 'login_local'])->name('login_local');
-Route::get('/user', [App\Http\Controllers\UserViewController::class, 'index_local'])->name('user');
 //Route::get('/user/{id}', [App\Http\Controllers\UserViewController::class, 'getImage'])->name('add_avatar');
 //Route::post('/user/{id}', [App\Http\Controllers\UserViewController::class, 'postImage']);
 
@@ -48,5 +43,12 @@ Route::get('/user', [App\Http\Controllers\UserViewController::class, 'index_loca
 |
 |
 */
-Route::get('/category', [App\Http\Controllers\CategoryViewController::class, 'index']);
-Route::get('/category/create', [App\Http\Controllers\CategoryViewController::class, 'create']);
+Route::post('/login', [App\Http\Controllers\UserViewController::class, 'login_local'])->name('login_local');
+
+//get local
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', [App\Http\Controllers\UserViewController::class, 'index_local'])->name('user');
+    Route::get('/category', [App\Http\Controllers\CategoryViewController::class, 'index']);
+    Route::get('/category/create', [App\Http\Controllers\CategoryViewController::class, 'create']);
+});
+

@@ -144,32 +144,27 @@ class UserController extends Controller
         return response()->json($arr);
     }
 
-    // Form thêm hình ảnh
-    public function getImage($id)
+    //get hình ảnh
+    public function getImage(Request $request)
     {
-        $userId = auth()->user()->id;
-        $user = User::find($id);
-        return view('user', compact('user'));
+        $image = auth()->user()->avatar_upload;
+        return response()->json(["message" => $image], 200);
     }
 
     // Xử lý thêm ảnh
-    public function postImage(Request $request, $id)
+    public function postImage(Request $request)
     {
-        $user = User::find($id);
-        if($request->hasFile('avatar_upload')){
+        $image = "data:image/jpeg;base64,".base64_encode(file_get_contents($request->file('avatar_upload')->path()));
 
-            $fImage = $request->file('avatar_upload');
-            $bientam = time().'_'.$fImage->getClientOriginalName();
-            $destinationPath = public_path('/upload');
-            $fImage->move($destinationPath,$bientam);
-            $user->avatar_upload = $bientam;
-        }
-        else{
-            $user->avatar_upload = $user->old_image;
-        }
+        if ($image)
+        {
+            $user = auth::user();
+            $user->update([
+                "avatar_upload" => $image,
+            ]);
 
-        $user->save();
-        return redirect('/user');
+            return response()->json(["message" => "Tải ảnh lên thành công", "data" => $image], 200);
+        }
     }
 
     /**
