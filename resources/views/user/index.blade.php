@@ -94,10 +94,13 @@
 
                 var src = document.getElementById("bind_avatar");
                 src.setAttribute("src", payload.avatar_upload);
+
+                HisSpinner(false);
             })
             .catch(function (error) {
                 // handle error
                 console.log(error);
+                HisSpinner();
             })
             .then(function () {
                 // always executed

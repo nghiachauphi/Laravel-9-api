@@ -25,10 +25,25 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $paginate = $request->page_number;
+        $max_item = 5;
         $category = Category::all();
-        return response()->json(["data" => $category], 200);
+        $length = count($category);
+
+        if ($paginate == null)
+        {
+
+            $category_latest = Category::latest()->take($max_item)->get();
+            return response()->json(["data" => $category_latest,"length" => $length], 200);
+        }
+        else{
+            $skipp_item = ($paginate-1) * $max_item;
+            $category = Category::skip($skipp_item)->take($max_item)->get();
+
+            return response()->json(["data" => $category,"length" => $length], 200);
+        }
     }
 
     /**

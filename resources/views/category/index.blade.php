@@ -62,6 +62,24 @@
             <tbody id="tbody">
             </tbody>
         </table>
+
+        <ul class="pagination d-flex justify-content-end m-3" id="main_pagination">
+            <li class="page-item" id="previous_click">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <span class="pagination" id="page_number">
+
+            </span>
+
+            <li class="page-item" id="next_click">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
     </div>
 @endsection
 
@@ -198,14 +216,24 @@
         BindTextValue("discription", "");
     }
 
-    function APIGetCategory()
+    function APIGetCategory(item_paginate)
     {
-        document.getElementById("tbody").innerText = "";
+        HisSpinner();
+        paginate_now = item_paginate;
+        if (item_paginate == null)
+            item_paginate = 1; //nếu null load page 1
 
-        axios.get('/api/category/')
+        axios.get('/api/category/',{ params: {
+            page_number: item_paginate
+        } })
             .then(function (response) {
                 var payload = response.data.data;
-                console.log(payload);
+
+                document.getElementById("tbody").innerText = "";
+                document.getElementById("page_number").innerText = "";
+
+                Paginator(response.data, APIGetCategory);
+                HighlightPaginate(item_paginate);
 
                 if (payload.length != 0) {
                     for (let i = 0; i < payload.length; i++) {
@@ -213,9 +241,11 @@
                     }
                 }
 
+                HisSpinner(false);
             })
             .catch(function (error) {
                 console.log(error);
+                HisSpinner(false);
             });
     }
 
@@ -226,12 +256,10 @@
             discription: document.getElementById('discription').value,
         })
             .then(function (response) {
-                console.log(response);
                 APIGetCategory();
                 show_result("label_update", response.data.message, "col-12 h-100 alert alert-success text-center");
             })
             .catch(function (error) {
-                console.log(error.response.data);
                 let stringdata = error.response.data.message;
                 let message = stringdata[Object.keys(stringdata)[0]][0];
                 show_result("label_update", message, "col-12 h-100 alert alert-danger text-center");

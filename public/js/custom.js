@@ -441,3 +441,151 @@ function ReadOnlyElement(id, _true = true)
     }
 }
 
+function HisSpinner(show = true)
+{
+    let spinner = document.getElementById("spinner_container_page");
+
+    if (spinner == null)
+    {
+        return;
+    }
+
+    if( show == true && spinner.style.display != "")
+    {
+        spinner.style.display = "";
+    }
+    else if (show == false && spinner.style.display != "none")
+    {
+        spinner.style.display = "none";
+    }
+}
+
+function Paginator(payload, func)
+{
+    var page_number = payload.length;
+    var page = document.getElementById("page_number");
+    var count = null;
+
+    if ((page_number%5) == 0)
+        count = parseInt(page_number/5);
+    else
+        count = parseInt((page_number/5)+1);
+
+    if (count < 8 && paginate_now != null)
+    {
+        for (let i = 1; i <= count; i++)
+        {
+            var li = document.createElement("li");
+            li.setAttribute("class", 'page-item');
+
+            var item = document.createElement("a");
+            item.setAttribute("class", 'page-link');
+            item.setAttribute("id", 'page_link_' + i);
+            item.innerText = i;
+            item.onclick = function() {
+                if (func)
+                    func(i);
+            };
+
+            li.append(item);
+            page.append(li);
+        }
+    }
+    else if (paginate_now == null)
+    {
+        for (let i = 1; i <= 8; i++)
+        {
+            var li = document.createElement("li");
+            li.setAttribute("class", 'page-item');
+
+            var item = document.createElement("a");
+            item.setAttribute("class", 'page-link');
+            item.setAttribute("id", 'page_link_' + i);
+            item.innerText = i;
+            item.onclick = function () {if (func) func(i);}
+
+            li.append(item);
+            page.append(li);
+        }
+
+        var li = document.createElement("li");
+            li.setAttribute("class", 'page-item');
+
+        var itemContinue = document.createElement("a");
+            itemContinue.setAttribute("class", 'page-link');
+            itemContinue.innerText = "...";
+            li.append(itemContinue);
+            page.append(li);
+    }
+    else {
+        var first_page = paginate_now-3;
+        if (first_page <= 1)
+        {
+            first_page = 1;
+        }
+        else {
+            var liPre = document.createElement("li");
+                liPre.setAttribute("class", 'page-item');
+
+            var itemPre = document.createElement("a");
+                itemPre.setAttribute("class", 'page-link');
+                itemPre.innerText = "...";
+                itemPre.onclick = function () {if (func) func(1);}
+                liPre.append(itemPre);
+                page.append(liPre);
+        }
+
+        var latest_page = paginate_now+3;
+        if (latest_page > count)
+        {
+            latest_page = count;
+        }
+
+        for (let i = first_page; i <= latest_page; i++)
+        {
+            var li = document.createElement("li");
+                li.setAttribute("class", 'page-item');
+
+            var item = document.createElement("a");
+                item.setAttribute("class", 'page-link');
+                item.setAttribute("id", 'page_link_' + i);
+                item.innerText = i;
+                item.onclick = function () {if (func) func(i);}
+
+                li.append(item);
+                page.append(li);
+        }
+
+        if (latest_page != count)
+        {
+            var li = document.createElement("li");
+            li.setAttribute("class", 'page-item');
+
+            var itemContinue = document.createElement("a");
+            itemContinue.setAttribute("class", 'page-link');
+            itemContinue.innerText = "...";
+            itemContinue.onclick = function () {if (func) func(latest_page);}
+            li.append(itemContinue);
+            page.append(li);
+        }
+    }
+
+    $("#previous_click").click( function() {
+        if (func)
+            func(1);
+    });
+
+    $("#next_click").click( function () {
+        if (func)
+            func(count);
+    });
+}
+
+function HighlightPaginate(number_highlight)
+{
+    if (number_highlight == null)
+        number_highlight = 1;
+
+    var paginate_now_bg = document.getElementById("page_link_" + number_highlight);
+        paginate_now_bg.style.background = "#5b5959";
+}

@@ -109,3 +109,51 @@ select::-webkit-scrollbar-thumb {
 a {
     text-decoration: none;
 }
+
+.his-container-spinner {
+    position: relative;
+}
+
+.his-table-content-spinner, .his-spinner{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.his-spinner{
+    background-color: rgba(245, 245, 245, 0.459);
+    z-index: 99999999;
+}
+
+.his-spinner-btn{
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+}
+
+.spinner-border{
+    width: 50px;
+    height: 50px;
+}
+
+.his-spinner-bg{
+    width: 100%;
+    background-color: #0b222c;
+    border-radius: 4px;
+}
+
+.his-content-spinner{
+    background-color: #d5d9dd;
+    color: #0d6efd;
+    padding: 10px;
+    border-radius: 5%;
+}
+
+.all-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+}

@@ -29,11 +29,12 @@
     </script>
     <script src="{{ asset('js/semantic.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="{{ asset('js/variable.js') }}"></script>
 </head>
 <body>
 <!--    alpinejs    -->
 <script src="{{ asset('js/alpine.js') }}"></script>
-    <div id="app">
+    <div class="his-container-spinner" id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -105,6 +106,13 @@
         <main class="py-4 scroll-none-width">
             @yield('content')
         </main>
+    </div>
+
+    <div class="his-spinner all-center" id="spinner_container_page">
+        <div class="his-content-spinner all-center">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span class="m-2" id="spinner_container_page_lable">Loading...</span>
+        </div>
     </div>
 </body>
 <footer id="footer" class="d-flex justify-content-center align-items-center text-center">

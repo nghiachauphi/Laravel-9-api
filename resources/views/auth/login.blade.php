@@ -99,4 +99,8 @@
                 console.log(error);
             });
     }
+
+    window.onload = () => {
+        HisSpinner(false);
+    }
 </script>
