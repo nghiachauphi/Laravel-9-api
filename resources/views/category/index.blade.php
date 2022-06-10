@@ -174,7 +174,7 @@
             .then(function (response) {
                 var payload = response.data.message;
 
-                APIGetCategory();
+                APIGetCategory(paginate_now);
                 HisShowConfirmSucessResult(const_delete_category, payload);
 
             })
@@ -225,7 +225,10 @@
     function APIGetCategory(item_paginate)
     {
         HisSpinner();
-        paginate_now = item_paginate;
+
+        if (paginate_now == null)
+            paginate_now = item_paginate;
+
         if (item_paginate == null)
             item_paginate = 1; //nếu null load page 1
 
@@ -264,7 +267,7 @@
             discription: document.getElementById('discription').value,
         })
             .then(function (response) {
-                APIGetCategory();
+                APIGetCategory(paginate_now);
                 show_result("label_update", response.data.message, "col-12 h-100 alert alert-success text-center");
             })
             .catch(function (error) {
@@ -283,7 +286,7 @@
         })
             .then(function (response) {
                 console.log(response);
-                APIGetCategory();
+                APIGetCategory(paginate_now);
                 show_result("label_update", response.data.message, "col-12 h-100 alert alert-success text-center");
             })
             .catch(function (error) {

@@ -484,7 +484,8 @@ function Paginator(payload, func)
             item.setAttribute("id", 'page_link_' + i);
             item.innerText = i;
             item.onclick = function() {
-               func(i);
+                func(i);
+                paginate_now = i;
             };
 
             li.append(item);
@@ -503,7 +504,8 @@ function Paginator(payload, func)
             item.setAttribute("id", 'page_link_' + i);
             item.innerText = i;
             item.onclick = function () {
-               func(i);
+                func(i);
+                paginate_now = i;
             }
 
             li.append(item);
@@ -519,11 +521,11 @@ function Paginator(payload, func)
             li.append(itemContinue);
             page.append(li);
     }
-    else if(count => 8 && paginate_now != null)
+    else if(count => paginate_max && paginate_now != null)
     {
         console.log("cccccccccc")
         var first_page = paginate_now-3;
-        if (first_page <= 1)
+        if (paginate_now-3 <= 1 && paginate_now == 1)
         {
             first_page = 1;
         }
@@ -544,6 +546,7 @@ function Paginator(payload, func)
             latest_page = count;
         }
 
+        console.log("first", first_page)
         for (let i = first_page; i <= latest_page; i++)
         {
             var li = document.createElement("li");
@@ -555,6 +558,7 @@ function Paginator(payload, func)
                 item.innerText = i;
                 item.onclick = function () {
                     func(i);
+                    paginate_now = i;
                 }
 
                 li.append(item);
@@ -578,10 +582,14 @@ function Paginator(payload, func)
 
     document.getElementById("previous_click").onclick = function() {
         func(1);
+        paginate_now = 1;
+        HighlightPaginate(1);
     }
 
     document.getElementById("next_click").onclick = function() {
         func(count);
+        paginate_now = count;
+        HighlightPaginate(count);
     }
 }
 
@@ -591,5 +599,9 @@ function HighlightPaginate(number_highlight)
         number_highlight = 1;
 
     var paginate_now_bg = document.getElementById("page_link_" + number_highlight);
-        paginate_now_bg.style.background = "#5b5959";
+
+    if (paginate_now_bg == null)
+        return
+
+    paginate_now_bg.style.background = "#5b5959";
 }
