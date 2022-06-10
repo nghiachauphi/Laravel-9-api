@@ -216,6 +216,12 @@
         BindTextValue("discription", "");
     }
 
+    function LoadPaginate(data, item_paginate)
+    {
+        Paginator(data, APIGetCategory);
+        HighlightPaginate(item_paginate);
+    }
+
     function APIGetCategory(item_paginate)
     {
         HisSpinner();
@@ -232,12 +238,14 @@
                 document.getElementById("tbody").innerText = "";
                 document.getElementById("page_number").innerText = "";
 
-                Paginator(response.data, APIGetCategory);
-                HighlightPaginate(item_paginate);
+                LoadPaginate(response.data,item_paginate);
 
-                if (payload.length != 0) {
+                if (payload.length != 0)
+                {
+                    let stt = (item_paginate-1)*paginate_max;
+
                     for (let i = 0; i < payload.length; i++) {
-                        CreateRowItem(payload[i], i);
+                        CreateRowItem(payload[i], stt++ );
                     }
                 }
 

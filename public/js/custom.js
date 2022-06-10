@@ -462,16 +462,17 @@ function HisSpinner(show = true)
 
 function Paginator(payload, func)
 {
+    HisSpinner();
     var page_number = payload.length;
     var page = document.getElementById("page_number");
     var count = null;
 
-    if ((page_number%5) == 0)
-        count = parseInt(page_number/5);
+    if ((page_number%paginate_max) == 0)
+        count = parseInt(page_number/paginate_max);
     else
-        count = parseInt((page_number/5)+1);
+        count = parseInt((page_number/paginate_max)+1);
 
-    if (count < 8 && paginate_now != null)
+    if (count < paginate_max && paginate_now != null)
     {
         for (let i = 1; i <= count; i++)
         {
@@ -483,8 +484,7 @@ function Paginator(payload, func)
             item.setAttribute("id", 'page_link_' + i);
             item.innerText = i;
             item.onclick = function() {
-                if (func)
-                    func(i);
+               func(i);
             };
 
             li.append(item);
@@ -493,7 +493,7 @@ function Paginator(payload, func)
     }
     else if (paginate_now == null)
     {
-        for (let i = 1; i <= 8; i++)
+        for (let i = 1; i <= count; i++)
         {
             var li = document.createElement("li");
             li.setAttribute("class", 'page-item');
@@ -502,7 +502,9 @@ function Paginator(payload, func)
             item.setAttribute("class", 'page-link');
             item.setAttribute("id", 'page_link_' + i);
             item.innerText = i;
-            item.onclick = function () {if (func) func(i);}
+            item.onclick = function () {
+               func(i);
+            }
 
             li.append(item);
             page.append(li);
@@ -517,7 +519,9 @@ function Paginator(payload, func)
             li.append(itemContinue);
             page.append(li);
     }
-    else {
+    else if(count => 8 && paginate_now != null)
+    {
+        console.log("cccccccccc")
         var first_page = paginate_now-3;
         if (first_page <= 1)
         {
@@ -530,7 +534,6 @@ function Paginator(payload, func)
             var itemPre = document.createElement("a");
                 itemPre.setAttribute("class", 'page-link');
                 itemPre.innerText = "...";
-                itemPre.onclick = function () {if (func) func(1);}
                 liPre.append(itemPre);
                 page.append(liPre);
         }
@@ -550,7 +553,9 @@ function Paginator(payload, func)
                 item.setAttribute("class", 'page-link');
                 item.setAttribute("id", 'page_link_' + i);
                 item.innerText = i;
-                item.onclick = function () {if (func) func(i);}
+                item.onclick = function () {
+                    func(i);
+                }
 
                 li.append(item);
                 page.append(li);
@@ -559,26 +564,25 @@ function Paginator(payload, func)
         if (latest_page != count)
         {
             var li = document.createElement("li");
-            li.setAttribute("class", 'page-item');
+                li.setAttribute("class", 'page-item');
 
             var itemContinue = document.createElement("a");
-            itemContinue.setAttribute("class", 'page-link');
-            itemContinue.innerText = "...";
-            itemContinue.onclick = function () {if (func) func(latest_page);}
-            li.append(itemContinue);
-            page.append(li);
+                itemContinue.setAttribute("class", 'page-link');
+                itemContinue.innerText = "...";
+                li.append(itemContinue);
+                page.append(li);
         }
     }
 
-    $("#previous_click").click( function() {
-        if (func)
-            func(1);
-    });
+    HisSpinner(false);
 
-    $("#next_click").click( function () {
-        if (func)
-            func(count);
-    });
+    document.getElementById("previous_click").onclick = function() {
+        func(1);
+    }
+
+    document.getElementById("next_click").onclick = function() {
+        func(count);
+    }
 }
 
 function HighlightPaginate(number_highlight)
