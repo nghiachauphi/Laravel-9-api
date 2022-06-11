@@ -494,7 +494,7 @@ function Paginator(payload, func)
     }
     else if (paginate_now == null)
     {
-        for (let i = 1; i <= count; i++)
+        for (let i = 1; i <= 7; i++)
         {
             var li = document.createElement("li");
             li.setAttribute("class", 'page-item');
@@ -512,20 +512,23 @@ function Paginator(payload, func)
             page.append(li);
         }
 
-        var li = document.createElement("li");
+        if (count > 7)
+        {
+            var li = document.createElement("li");
             li.setAttribute("class", 'page-item');
 
-        var itemContinue = document.createElement("a");
+            var itemContinue = document.createElement("a");
             itemContinue.setAttribute("class", 'page-link');
             itemContinue.innerText = "...";
             li.append(itemContinue);
             page.append(li);
+        }
     }
     else if(count => paginate_max && paginate_now != null)
     {
         console.log("cccccccccc")
         var first_page = paginate_now-3;
-        if (paginate_now-3 <= 1 && paginate_now == 1)
+        if (first_page <= 1)
         {
             first_page = 1;
         }

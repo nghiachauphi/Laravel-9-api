@@ -48,7 +48,9 @@ Route::post('/login', [App\Http\Controllers\UserViewController::class, 'login_lo
 //get local
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [App\Http\Controllers\UserViewController::class, 'index_local'])->name('user');
+
     Route::get('/category', [App\Http\Controllers\CategoryViewController::class, 'index']);
     Route::get('/category/create', [App\Http\Controllers\CategoryViewController::class, 'create']);
+    Route::get('/category/export', [App\Http\Controllers\CategoryViewController::class, 'exportExcel'])->name('category.export');
 });
 

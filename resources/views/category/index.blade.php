@@ -9,7 +9,8 @@
         <div class="w-100">
             <div class="row">
                 <div class="col d-flex justify-content-end align-items-end">
-                    <button class="btn btn-primary m-3" id="btn_add">Thêm</button>
+                    <a href="{{route('category.export')}}" class="btn btn-primary m-3">Xuất Excel</a>
+                    <a class="btn btn-primary m-3" id="btn_add">Thêm</a>
                 </div>
             </div>
 
@@ -52,10 +53,10 @@
         <table class="table align-middle table-hover">
             <tr>
                 <th class="text-center">STT</th>
-                <th>ID danh mục</th>
-                <th>Tên danh mục</th>
-                <th class="">Người tạo/Người sửa</th>
-                <th class="">Mô tả</th>
+{{--                <th>ID danh mục</th>--}}
+                <th class="w-25">Tên danh mục</th>
+                <th class="w-25">Người tạo/Người sửa</th>
+                <th class="w-25">Mô tả</th>
                 <th class="text-center">Sửa</th>
                 <th class="text-center">Xóa</th>
             </tr>
@@ -97,10 +98,10 @@
         arrStt.setAttribute("class", "text-center");
         arrStt.innerText = stt + 1;
 
-        var itemId = document.createElement("td");
-        if (data.hasOwnProperty("_id")) {
-            itemId.innerText = data._id;
-        }
+        // var itemId = document.createElement("td");
+        // if (data.hasOwnProperty("_id")) {
+        //     itemId.innerText = data._id;
+        // }
 
         var itemName = document.createElement("td");
         if (data.hasOwnProperty("name")) {
@@ -147,7 +148,7 @@
         itemDelete.append(iDelete);
 
         itemTr.append(arrStt);
-        itemTr.append(itemId);
+        // itemTr.append(itemId);
         itemTr.append(itemName);
         itemTr.append(itemAuthor);
         itemTr.append(itemDisc);
