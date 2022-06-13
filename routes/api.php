@@ -33,5 +33,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/category/create', [App\Http\Controllers\CategoryController::class, 'create']);
     Route::post('/category/update', [App\Http\Controllers\CategoryController::class, 'update']);
     Route::post('/category/delete', [App\Http\Controllers\CategoryController::class, 'delete']);
+    Route::post('/category/import', [App\Http\Controllers\CategoryController::class, 'importExcel']);
 });
 

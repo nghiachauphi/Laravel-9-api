@@ -52,5 +52,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/category', [App\Http\Controllers\CategoryViewController::class, 'index']);
     Route::get('/category/create', [App\Http\Controllers\CategoryViewController::class, 'create']);
     Route::get('/category/export', [App\Http\Controllers\CategoryViewController::class, 'exportExcel'])->name('category.export');
+    Route::post('/category/import', [App\Http\Controllers\CategoryViewController::class, 'importExcel'])->name('category.import');
 });
 

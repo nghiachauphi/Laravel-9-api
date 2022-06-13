@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Paginator::useBootstrap();
+        Session::extend('mongo', function ($app) {
+            // Return an implementation of SessionHandlerInterface...
+            return new MongoSessionHandler;
+        });
     }
 }

@@ -75,3 +75,8 @@
     </div>
 </div>
 @endsection
+<script>
+    window.onload = function (){
+        HisSpinner();
+    }
+</script>

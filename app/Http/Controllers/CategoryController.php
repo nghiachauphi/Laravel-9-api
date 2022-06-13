@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Imports\CategoriesImport;
 use App\Models\Category;
-use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Mongodb\Auth\Authenticatable;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 class CategoryController extends Controller
 {
@@ -107,5 +104,22 @@ class CategoryController extends Controller
         }
 
         return response()->json(["message" => "Cập nhật danh mục thất bại","data" => $request],400);
+    }
+
+    public function importExcel(Request $request)
+    {
+        $session = DB::connection('mongodb')->getMongoClient()->startSession();
+
+        $session->startTransaction();
+                dd($session);
+        try {
+            // Perform actions.
+            Excel::import(new CategoriesImport, $request->file('file_import'));
+            $session->commitTransaction();
+        } catch(Exception $e) {
+            $session->abortTransaction();
+        }
+
+        return response()->json(["message" => "Nhập thành công"],200);
     }
 }

@@ -48,6 +48,9 @@ return [
             'driver' => 'mongodb',
             'database' => env('DB_DATABASE', 'test'),
             'dsn' => env('DSN', ''),
+            'options'  => [
+                'database' => env('DB_AUTHENTICATION_DATABASE', 'test'),
+            ]
         ],
 
 

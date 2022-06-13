@@ -6,7 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Mongodb\Auth\Authenticatable;
-use Session;
+use Illuminate\Support\Facades\Session;
+//use Session;
 
 class UserViewController extends Controller
 {

@@ -188,6 +188,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Barryvdh\Elfinder\ElfinderServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Jenssegers\Mongodb\MongodbQueueServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,

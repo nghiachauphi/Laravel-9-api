@@ -18,6 +18,6 @@ class CategoriesExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ["ID", "NAME", "USER_CREATE", "DISCRIPTION", "USER_UPDATE"];
+        return ["ID", "NAME", "AUTHOR", "DISCRIPTION", "AUTHOR_UPDATE"];
     }
 }

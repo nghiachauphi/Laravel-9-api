@@ -9,6 +9,7 @@
         <div class="w-100">
             <div class="row">
                 <div class="col d-flex justify-content-end align-items-end">
+                    <a class="btn btn-primary m-3" id="btn_import_excel">Nhập Excel</a>
                     <a href="{{route('category.export')}}" class="btn btn-primary m-3">Xuất Excel</a>
                     <a class="btn btn-primary m-3" id="btn_add">Thêm</a>
                 </div>
@@ -53,7 +54,7 @@
         <table class="table align-middle table-hover">
             <tr>
                 <th class="text-center">STT</th>
-{{--                <th>ID danh mục</th>--}}
+                {{--                <th>ID danh mục</th>--}}
                 <th class="w-25">Tên danh mục</th>
                 <th class="w-25">Người tạo/Người sửa</th>
                 <th class="w-25">Mô tả</th>
@@ -81,6 +82,35 @@
                 </a>
             </li>
         </ul>
+    </div>
+
+    <div class="modal fade modal scroll-width-one" id="import_excel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="exampleModalLabel">Nhập Excel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('category.import')}}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="row mb-3">
+                            <div class="col-sm">
+                                <label for="recipient-name" class="label">Chọn tập tin excel</label>
+                                <input type="file" class="form-control" id="file_import" name="file_import">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm d-flex justify-content-end align-content-end">
+                                <a type="button" class="btn btn-secondary w-25 me-3" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Hùy bỏ</a>
+                                <button type="submit" class="btn btn-primary w-25">Nhập</button>
+{{--                                <a type="button" class="btn btn-primary w-25" onclick="APIImportExcel()">Nhập</a>--}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -121,30 +151,30 @@
         }
 
         var itemEdit = document.createElement("td");
-            itemEdit.setAttribute("class", "text-center");
-            itemEdit.onclick = () => {
-                ClearForm();
-                BindTextValue("name", data, "name");
-                BindTextValue("discription", data, "discription");
-                HiddenElement("btn_submit_create", true);
-                HiddenElement("btn_submit_update", false);
-                HiddenElement("form_category", false);
-                code_delete = data._id;
-            }
+        itemEdit.setAttribute("class", "text-center");
+        itemEdit.onclick = () => {
+            ClearForm();
+            BindTextValue("name", data, "name");
+            BindTextValue("discription", data, "discription");
+            HiddenElement("btn_submit_create", true);
+            HiddenElement("btn_submit_update", false);
+            HiddenElement("form_category", false);
+            code_delete = data._id;
+        }
 
         var iEdit = document.createElement("i");
-            iEdit.setAttribute('class',"fa-solid fa-pen-to-square");
+        iEdit.setAttribute('class',"fa-solid fa-pen-to-square");
         itemEdit.append(iEdit);
 
         var itemDelete = document.createElement("td");
-            itemDelete.setAttribute("class", "text-center");
-            itemDelete.onclick = () => {
-                AlertDelete_Category(data);
-                code_delete = data._id;
-            }
+        itemDelete.setAttribute("class", "text-center");
+        itemDelete.onclick = () => {
+            AlertDelete_Category(data);
+            code_delete = data._id;
+        }
 
         var iDelete = document.createElement("i");
-            iDelete.setAttribute('class',"fa-solid fa-circle-minus");
+        iDelete.setAttribute('class',"fa-solid fa-circle-minus");
         itemDelete.append(iDelete);
 
         itemTr.append(arrStt);
@@ -187,6 +217,10 @@
 
     function RegisterEvents()
     {
+        $("#btn_import_excel").click( () => {
+            $("#import_excel").modal('show');
+        })
+
         $('#btn_close').click( () => {
             ClearForm();
             HiddenElement("form_category", true);
@@ -234,8 +268,8 @@
             item_paginate = 1; //nếu null load page 1
 
         axios.get('/api/category/',{ params: {
-            page_number: item_paginate
-        } })
+                page_number: item_paginate
+            } })
             .then(function (response) {
                 var payload = response.data.data;
 
@@ -295,6 +329,28 @@
                 let stringdata = error.response.data.message;
                 let message = stringdata[Object.keys(stringdata)[0]][0];
                 show_result("label_update", message, "col-12 h-100 alert alert-danger text-center");
+            });
+    }
+
+    function APICreateCategory()
+    {
+        var formData = new FormData();
+        var file = document.querySelector('#file_import');
+        formData.append("file_import", file.files[0]);
+
+        axios.post('/api/category/import', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(function (response) {
+                APIGetCategory(paginate_now);
+                show_result("label_update_import", response.data.message, "col-12 h-100 alert alert-success text-center");
+            })
+            .catch(function (error) {
+                let stringdata = error.response.data.message;
+                let message = stringdata[Object.keys(stringdata)[0]][0];
+                show_result("label_update_import", message, "col-12 h-100 alert alert-danger text-center");
             });
     }
 
